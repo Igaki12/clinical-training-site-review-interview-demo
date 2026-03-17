@@ -2,10 +2,10 @@
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
   color: #183042;
   background:
-    radial-gradient(circle at top left, rgba(122, 177, 255, 0.28), transparent 34%),
-    radial-gradient(circle at 85% 12%, rgba(255, 174, 107, 0.26), transparent 26%),
-    radial-gradient(circle at 50% 100%, rgba(107, 214, 196, 0.16), transparent 30%),
-    linear-gradient(180deg, #fbfdff 0%, #f1f7ff 48%, #eef6f6 100%);
+    radial-gradient(circle at 12% 10%, rgba(255, 153, 102, 0.5), transparent 30%),
+    radial-gradient(circle at 88% 14%, rgba(210, 107, 255, 0.4), transparent 28%),
+    radial-gradient(circle at 56% 100%, rgba(255, 124, 182, 0.3), transparent 32%),
+    linear-gradient(180deg, #fffaf9 0%, #fff3fb 50%, #f7f1ff 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
