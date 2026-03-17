@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { FaHospital } from "react-icons/fa6";
 import { hospitals, interviewQuestions } from "./data";
 import type { Hospital, InterviewQuestion, ReviewCategory } from "./types";
 
@@ -236,9 +237,14 @@ export default function App() {
                   onClick={() => setSelectedHospitalId(hospital.id)}
                 >
                   <div className="hospital-card-top">
-                    <div>
+                    <div className="hospital-title-wrap">
+                      <span className="hospital-icon" aria-hidden="true">
+                        <FaHospital />
+                      </span>
+                      <div>
                       <p className="hospital-area">{hospital.area}</p>
                       <h3>{hospital.name}</h3>
+                      </div>
                     </div>
                     <span className={`score-badge ${hospital.rating === 0 ? "empty" : ""}`}>
                       {hospital.rating === 0 ? "N/A" : hospital.rating.toFixed(1)}
@@ -282,7 +288,7 @@ export default function App() {
                       <strong>{selectedHospital.rating === 0 ? "未集計" : selectedHospital.rating.toFixed(1)}</strong>
                     </div>
                   </div>
-                  <div className="callout">
+                  <div key={selectedHospital.id} className="callout gradient-wave">
                     <span className="callout-label">AI Summary</span>
                     <p>{selectedHospital.aiSummary}</p>
                   </div>

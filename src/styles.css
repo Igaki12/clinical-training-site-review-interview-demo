@@ -124,6 +124,9 @@ button {
   color: #627b8d;
   font-size: 0.88rem;
 }
+.hospital-area{
+  margin-bottom: 4px;
+}
 
 .hero-stat strong,
 .detail-stats strong,
@@ -157,7 +160,11 @@ button {
 }
 
 .primary-button {
-  background: #17324a;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(18, 43, 68, 1), rgba(69, 101, 143, 0.96)),
+    #17324a;
   color: #fff;
 }
 
@@ -226,6 +233,30 @@ button {
   gap: 12px;
 }
 
+.hospital-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hospital-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 76px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(230, 238, 246, 0.92));
+  border: 1px solid rgba(70, 104, 127, 0.12);
+  color: #35516b;
+  flex-shrink: 0;
+}
+
+.hospital-icon svg {
+  width: 54px;
+  height: 64px;
+}
+
 .panel-header h2,
 .modal-header h2,
 .empty-state h3,
@@ -275,6 +306,7 @@ button {
   border-radius: 999px;
   padding: 8px 12px;
   font-size: 0.78rem;
+  margin: 4px;
 }
 
 .filter-chip,
@@ -325,13 +357,17 @@ button {
 }
 
 .score-badge {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 56px;
   height: 56px;
   border-radius: 18px;
-  background: #17324a;
+  background:
+    linear-gradient(140deg, rgba(20, 44, 68, 1), rgba(88, 120, 164, 0.94)),
+    #17324a;
   color: #fff;
   font-size: 1.2rem;
   font-weight: 700;
@@ -383,6 +419,8 @@ button {
 }
 
 .callout {
+  position: relative;
+  overflow: hidden;
   padding: 18px 20px;
   border-radius: 20px;
   background:
@@ -399,6 +437,120 @@ button {
 
 .callout-label {
   color: rgba(235, 242, 247, 0.72);
+}
+
+.gradient-wave::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.22), transparent 24%),
+    linear-gradient(
+      110deg,
+      transparent 18%,
+      rgba(255, 255, 255, 0.08) 34%,
+      rgba(167, 213, 255, 0.22) 46%,
+      rgba(255, 185, 236, 0.2) 58%,
+      transparent 74%
+    );
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-20%, 0, 0) scale(1);
+  mix-blend-mode: screen;
+  animation: gradientWave 3000ms cubic-bezier(0.22, 0.61, 0.36, 1) 1 both;
+}
+
+.callout > *,
+.score-badge > *,
+.primary-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.callout.gradient-wave::after,
+.score-badge:not(.empty)::after,
+.primary-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 24% 50%, rgba(255, 255, 255, 0.16), transparent 22%),
+    radial-gradient(circle at 75% 48%, rgba(139, 207, 255, 0.18), transparent 26%);
+  opacity: 0;
+  animation: gradientGlow 3000ms ease-out 1 both;
+  pointer-events: none;
+}
+
+.score-badge:not(.empty)::before,
+.primary-button::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  background:
+    linear-gradient(
+      110deg,
+      transparent 22%,
+      rgba(255, 255, 255, 0.1) 38%,
+      rgba(173, 221, 255, 0.26) 50%,
+      rgba(255, 186, 236, 0.2) 60%,
+      transparent 78%
+    );
+  opacity: 0;
+  transform: translate3d(-26%, 0, 0) scale(1);
+  mix-blend-mode: screen;
+  animation: gradientWave 3000ms cubic-bezier(0.22, 0.61, 0.36, 1) 1 both;
+  pointer-events: none;
+}
+
+@keyframes gradientWave {
+  0% {
+    opacity: 0;
+    transform: translate3d(-28%, 0, 0) scale(0.96);
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  52% {
+    opacity: 0.78;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(28%, 0, 0) scale(1.06);
+  }
+}
+
+@keyframes gradientGlow {
+  0% {
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 0.55;
+  }
+
+  58% {
+    opacity: 0.28;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-wave::before,
+  .callout.gradient-wave::after,
+  .score-badge:not(.empty)::before,
+  .score-badge:not(.empty)::after,
+  .primary-button::before,
+  .primary-button::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .detail-stats {
@@ -569,7 +721,7 @@ button {
   color: #587184;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 700px) {
   .hero,
   .layout {
     grid-template-columns: 1fr;
