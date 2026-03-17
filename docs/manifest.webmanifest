@@ -1,0 +1,23 @@
+{
+  "name": "実習先レビュー demo",
+  "short_name": "実習先レビュー",
+  "description": "自由記述レビューとインタビュー補完を組み合わせた実習先レビューのデモアプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef3f7",
+  "theme_color": "#17324a",
+  "icons": [
+    {
+      "src": "./icon.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "./icon.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}
