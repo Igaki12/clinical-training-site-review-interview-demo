@@ -2,9 +2,10 @@
   font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
   color: #183042;
   background:
-    radial-gradient(circle at top left, rgba(216, 229, 255, 0.9), transparent 32%),
-    radial-gradient(circle at top right, rgba(255, 233, 206, 0.9), transparent 28%),
-    linear-gradient(180deg, #f5f7fb 0%, #eef3f7 100%);
+    radial-gradient(circle at top left, rgba(122, 177, 255, 0.28), transparent 34%),
+    radial-gradient(circle at 85% 12%, rgba(255, 174, 107, 0.26), transparent 26%),
+    radial-gradient(circle at 50% 100%, rgba(107, 214, 196, 0.16), transparent 30%),
+    linear-gradient(180deg, #fbfdff 0%, #f1f7ff 48%, #eef6f6 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -358,6 +359,17 @@ button {
 .detail-hero {
   display: grid;
   gap: 18px;
+}
+
+.empty-selection {
+  min-height: 280px;
+  align-content: center;
+}
+
+.empty-selection h2 {
+  margin: 6px 0 0;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
 }
 
 .detail-score-wrap {
