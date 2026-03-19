@@ -481,9 +481,11 @@ export default function App() {
             </div>
             <div className="modal-footer">
               <p>回答しないとレビュー閲覧ができない、という想定の導線を demo として表現しています。</p>
-              <button className="primary-button" onClick={() => setShowInterviewModal(false)}>
-                回答してレビューを見る
-              </button>
+              <div className="modal-actions">
+                <button className="primary-button" onClick={() => setShowInterviewModal(false)}>
+                  回答してレビューを見る
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -517,12 +519,14 @@ export default function App() {
               <strong>{savedApiKey ? "この端末に保存済み" : "未保存"}</strong>
             </div>
             <div className="modal-footer">
-              <button className="ghost-button" onClick={() => setShowApiKeyModal(false)}>
-                あとで設定
-              </button>
-              <button className="primary-button" onClick={handleSaveApiKey}>
-                保存する
-              </button>
+              <div className="modal-actions">
+                <button className="ghost-button" onClick={() => setShowApiKeyModal(false)}>
+                  あとで設定
+                </button>
+                <button className="primary-button" onClick={handleSaveApiKey}>
+                  保存する
+                </button>
+              </div>
             </div>
           </div>
         </div>

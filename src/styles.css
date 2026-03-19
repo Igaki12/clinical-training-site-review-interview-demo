@@ -233,6 +233,13 @@ button {
   gap: 12px;
 }
 
+.panel-header > :first-child,
+.hospital-card-top > :first-child,
+.modal-header > :first-child,
+.modal-footer > :first-child {
+  min-width: 0;
+}
+
 .hospital-title-wrap {
   display: flex;
   align-items: center;
@@ -652,6 +659,14 @@ button {
   border-radius: 28px;
 }
 
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
 .detail-modal {
   width: min(760px, 100%);
   max-height: min(92vh, 980px);
@@ -769,14 +784,20 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .panel-header,
-  .hospital-card-top,
   .modal-footer {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .modal-header,
+  .panel-header,
+  .hospital-card-top,
+  .modal-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 12px;
+  }
+
   .review-card-header,
   .saved-key-row,
   .progress-row {
@@ -784,13 +805,9 @@ button {
     flex-wrap: wrap;
   }
 
-  .modal-header {
-    flex-direction: row;
-  }
-
   .detail-score-wrap {
     text-align: right;
-    align-self: flex-end;
+    align-self: start;
   }
 
   .field-item,
@@ -825,29 +842,34 @@ button {
     align-self: flex-start;
   }
 
-  .primary-button,
-  .ghost-button,
-  .secondary-button,
-  .score-badge {
-    align-self: flex-end;
+  .panel-header > .ghost-button,
+  .panel-header > .pill,
+  .hospital-card-top > .score-badge,
+  .modal-header > .close-button {
+    justify-self: end;
+    align-self: start;
   }
 
   .modal-footer {
-    gap: 10px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 12px;
+    row-gap: 10px;
   }
 
   .modal-footer p {
-    flex: 1 1 100%;
+    grid-column: 1 / 2;
   }
 
-  .modal-footer .primary-button,
-  .modal-footer .ghost-button {
-    margin-left: auto;
+  .modal-actions {
+    grid-column: 2 / 3;
+    justify-self: end;
+    align-self: start;
   }
 
   .hospital-card-top {
-    flex-wrap: wrap;
+    row-gap: 10px;
   }
 
   .hospital-title-wrap {
@@ -856,13 +878,7 @@ button {
   }
 
   .score-badge {
-    margin-left: auto;
-  }
-
-  .panel-header .ghost-button,
-  .panel-header .pill,
-  .panel-header .score-badge {
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .category-card-header,
