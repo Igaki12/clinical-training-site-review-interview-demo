@@ -761,10 +761,6 @@ button {
   .layout {
     grid-template-columns: 1fr;
   }
-
-  .secondary-button {
-    grid-column: auto;
-  }
 }
 
 @media (max-width: 720px) {
