@@ -498,7 +498,7 @@ export default function App() {
               <p>回答するとレビュー閲覧できます</p>
               <div className="modal-actions">
                 <button className="primary-button" onClick={() => setShowInterviewModal(false)}>
-                  回答してレビューを見る
+                  回答を送信
                 </button>
               </div>
             </div>
