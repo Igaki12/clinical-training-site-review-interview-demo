@@ -339,7 +339,7 @@ export default function App() {
             <span>補完待ち質問</span>
             <strong>{prioritizedQuestions.length - answeredCount}</strong>
           </div>
-          <div className="hero-stat">
+          <div className="hero-stat hero-stat-wide">
             <span>ローカル保存キー</span>
             <strong>{savedApiKey ? "設定済み" : "未設定"}</strong>
           </div>

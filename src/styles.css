@@ -115,6 +115,10 @@ button {
   border-radius: 18px;
 }
 
+.hero-stat-wide {
+  grid-column: 1 / -1;
+}
+
 .hero-stat span,
 .detail-stats span,
 .field-meta,
@@ -758,10 +762,6 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .hero-panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .secondary-button {
     grid-column: auto;
   }
@@ -778,10 +778,6 @@ button {
   .hospital-card,
   .modal {
     border-radius: 22px;
-  }
-
-  .hero-panel {
-    grid-template-columns: 1fr;
   }
 
   .modal-footer {
