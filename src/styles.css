@@ -389,6 +389,7 @@ button {
 }
 
 .content-grid {
+  display: grid;
   grid-template-columns: 1fr;
 }
 
@@ -410,6 +411,7 @@ button {
 
 .detail-score-wrap {
   text-align: right;
+  margin-left: auto;
 }
 
 .detail-score-label {
@@ -650,6 +652,18 @@ button {
   border-radius: 28px;
 }
 
+.detail-modal {
+  width: min(760px, 100%);
+  max-height: min(92vh, 980px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.detail-modal-content {
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 .api-modal {
   width: min(560px, 100%);
 }
@@ -711,6 +725,8 @@ button {
   border-radius: 999px;
   background: rgba(232, 238, 244, 0.94);
   color: #35516b;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .input-label {
@@ -755,21 +771,102 @@ button {
 
   .panel-header,
   .hospital-card-top,
-  .modal-header,
   .modal-footer {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .detail-score-wrap {
-    text-align: left;
-  }
-
-  .field-item,
+  .modal-header,
   .review-card-header,
   .saved-key-row,
   .progress-row {
     align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .modal-header {
+    flex-direction: row;
+  }
+
+  .detail-score-wrap {
+    text-align: right;
+    align-self: flex-end;
+  }
+
+  .field-item,
+  .saved-key-row,
+  .progress-row {
+    align-items: flex-start;
     flex-direction: column;
+  }
+
+  .content {
+    display: none;
+  }
+
+  .detail-modal-scrim {
+    padding: 10px;
+    align-items: end;
+  }
+
+  .detail-modal {
+    width: 100%;
+    max-height: 88vh;
+    padding: 18px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .detail-modal-content {
+    gap: 12px;
+    padding-right: 0;
+  }
+
+  .close-button {
+    align-self: flex-start;
+  }
+
+  .primary-button,
+  .ghost-button,
+  .secondary-button,
+  .score-badge {
+    align-self: flex-end;
+  }
+
+  .modal-footer {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .modal-footer p {
+    flex: 1 1 100%;
+  }
+
+  .modal-footer .primary-button,
+  .modal-footer .ghost-button {
+    margin-left: auto;
+  }
+
+  .hospital-card-top {
+    flex-wrap: wrap;
+  }
+
+  .hospital-title-wrap {
+    min-width: 0;
+    flex: 1 1 220px;
+  }
+
+  .score-badge {
+    margin-left: auto;
+  }
+
+  .panel-header .ghost-button,
+  .panel-header .pill,
+  .panel-header .score-badge {
+    margin-left: auto;
+  }
+
+  .category-card-header,
+  .interview-meta {
+    flex-wrap: wrap;
   }
 }

@@ -88,6 +88,7 @@ const getHospitalQuestions = (hospitalId: string) =>
 
 export default function App() {
   const [selectedHospitalId, setSelectedHospitalId] = useState<string | null>(null);
+  const [isMobileLayout, setIsMobileLayout] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showInterviewModal, setShowInterviewModal] = useState(true);
   const [apiKeyInput, setApiKeyInput] = useState("");
@@ -99,6 +100,20 @@ export default function App() {
     setSavedApiKey(storedKey);
     setApiKeyInput(storedKey);
     setShowApiKeyModal(true);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 719px)");
+    const syncLayout = (event?: MediaQueryListEvent) => {
+      setIsMobileLayout(event ? event.matches : mediaQuery.matches);
+    };
+
+    syncLayout();
+    mediaQuery.addEventListener("change", syncLayout);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncLayout);
+    };
   }, []);
 
   const selectedHospital = useMemo(
@@ -170,6 +185,123 @@ export default function App() {
   const answeredCount = Object.keys(answers).length;
   const progressValue = Math.min(answeredCount, prioritizedQuestions.length);
   const freshness = selectedHospital ? getHospitalFreshness(selectedHospital) : null;
+  const selectedHospitalContent =
+    selectedHospital && freshness ? (
+      <>
+        <section className="panel detail-hero">
+          <div className="panel-header">
+            <div>
+              <p className="section-label">Review Summary</p>
+              <h2>{selectedHospital.name}</h2>
+              <p className="detail-subtitle">
+                {selectedHospital.area} / {selectedHospital.nearest}
+              </p>
+            </div>
+            <div className="detail-score-wrap">
+              <span className="detail-score-label">総合評価</span>
+              <strong>{selectedHospital.rating === 0 ? "未集計" : selectedHospital.rating.toFixed(1)}</strong>
+            </div>
+          </div>
+          <div key={selectedHospital.id} className="callout gradient-wave">
+            <span className="callout-label">AI Summary</span>
+            <p>{selectedHospital.aiSummary}</p>
+          </div>
+          <div className="detail-stats">
+            <div>
+              <span>レビュー数</span>
+              <strong>{selectedHospital.reviewCount}</strong>
+            </div>
+            <div>
+              <span>不足項目</span>
+              <strong>{freshness.missing}</strong>
+            </div>
+            <div>
+              <span>古い項目</span>
+              <strong>{freshness.stale}</strong>
+            </div>
+            <div>
+              <span>入力済み</span>
+              <strong>{freshness.populated}</strong>
+            </div>
+          </div>
+        </section>
+
+        <section className="panel">
+          <div className="panel-header">
+            <div>
+              <p className="section-label">Structured Review</p>
+              <h2>構造化データ</h2>
+            </div>
+            <button className="ghost-button" onClick={() => setShowInterviewModal(true)}>
+              補完インタビューを開く
+            </button>
+          </div>
+          <div className="category-grid">
+            {selectedHospital.categories.map((category) => {
+              const status = categoryStatus(category);
+              return (
+                <article key={category.key} className="category-card">
+                  <div className="category-card-header">
+                    <h3>{category.title}</h3>
+                    <span className={`pill ${status}`}>
+                      {status === "empty"
+                        ? "未入力"
+                        : status === "partial"
+                          ? "一部不足"
+                          : status === "stale"
+                            ? "更新対象"
+                            : "充足"}
+                    </span>
+                  </div>
+                  <div className="field-list">
+                    {category.fields.map((field) => (
+                      <div key={field.label} className="field-item">
+                        <div>
+                          <span className="field-label">{field.label}</span>
+                          <strong className={field.value === "未入力" ? "muted" : ""}>{field.value}</strong>
+                        </div>
+                        <div className="field-meta">
+                          <span>{formatDate(field.updatedAt)}</span>
+                          <span>{field.responses}件</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="panel">
+          <div className="panel-header">
+            <div>
+              <p className="section-label">Free Reviews</p>
+              <h2>自由記述レビュー</h2>
+            </div>
+            <span className="pill neutral">{selectedHospital.freeReviews.length} entries</span>
+          </div>
+          <div className="review-list">
+            {selectedHospital.freeReviews.length > 0 ? (
+              selectedHospital.freeReviews.map((review) => (
+                <article key={`${review.author}-${review.postedAt}`} className="review-card">
+                  <div className="review-card-header">
+                    <strong>{review.author}</strong>
+                    <span>{formatDate(review.postedAt)}</span>
+                  </div>
+                  <p>{review.body}</p>
+                </article>
+              ))
+            ) : (
+              <div className="empty-state">
+                <h3>まだレビューがありません</h3>
+                <p>初回レビューとインタビュー回答が集まると、この病院の詳細が表示されます。</p>
+              </div>
+            )}
+          </div>
+        </section>
+      </>
+    ) : null;
 
   return (
     <div className="app-shell">
@@ -242,8 +374,8 @@ export default function App() {
                         <FaHospital />
                       </span>
                       <div>
-                      <p className="hospital-area">{hospital.area}</p>
-                      <h3>{hospital.name}</h3>
+                        <p className="hospital-area">{hospital.area}</p>
+                        <h3>{hospital.name}</h3>
                       </div>
                     </div>
                     <span className={`score-badge ${hospital.rating === 0 ? "empty" : ""}`}>
@@ -270,135 +402,44 @@ export default function App() {
           </div>
         </aside>
 
-        <section className="content">
-          <div className="content-grid">
-            {selectedHospital && freshness ? (
-              <>
-                <section className="panel detail-hero">
-                  <div className="panel-header">
-                    <div>
-                      <p className="section-label">Review Summary</p>
-                      <h2>{selectedHospital.name}</h2>
-                      <p className="detail-subtitle">
-                        {selectedHospital.area} / {selectedHospital.nearest}
-                      </p>
-                    </div>
-                    <div className="detail-score-wrap">
-                      <span className="detail-score-label">総合評価</span>
-                      <strong>{selectedHospital.rating === 0 ? "未集計" : selectedHospital.rating.toFixed(1)}</strong>
-                    </div>
-                  </div>
-                  <div key={selectedHospital.id} className="callout gradient-wave">
-                    <span className="callout-label">AI Summary</span>
-                    <p>{selectedHospital.aiSummary}</p>
-                  </div>
-                  <div className="detail-stats">
-                    <div>
-                      <span>レビュー数</span>
-                      <strong>{selectedHospital.reviewCount}</strong>
-                    </div>
-                    <div>
-                      <span>不足項目</span>
-                      <strong>{freshness.missing}</strong>
-                    </div>
-                    <div>
-                      <span>古い項目</span>
-                      <strong>{freshness.stale}</strong>
-                    </div>
-                    <div>
-                      <span>入力済み</span>
-                      <strong>{freshness.populated}</strong>
-                    </div>
-                  </div>
+        {!isMobileLayout ? (
+          <section className="content">
+            <div className="content-grid">
+              {selectedHospitalContent ?? (
+                <section className="panel detail-hero empty-selection">
+                  <p className="section-label">Getting Started</p>
+                  <h2>実習先を選択して、詳細を確認しよう</h2>
+                  <p className="detail-subtitle">
+                    左の一覧から病院を選ぶと、構造化レビュー、AI要約、自由記述レビューを表示します。
+                  </p>
                 </section>
-
-                <section className="panel">
-                  <div className="panel-header">
-                    <div>
-                      <p className="section-label">Structured Review</p>
-                      <h2>構造化データ</h2>
-                    </div>
-                    <button className="ghost-button" onClick={() => setShowInterviewModal(true)}>
-                      補完インタビューを開く
-                    </button>
-                  </div>
-                  <div className="category-grid">
-                    {selectedHospital.categories.map((category) => {
-                      const status = categoryStatus(category);
-                      return (
-                        <article key={category.key} className="category-card">
-                          <div className="category-card-header">
-                            <h3>{category.title}</h3>
-                            <span className={`pill ${status}`}>
-                              {status === "empty"
-                                ? "未入力"
-                                : status === "partial"
-                                  ? "一部不足"
-                                  : status === "stale"
-                                    ? "更新対象"
-                                    : "充足"}
-                            </span>
-                          </div>
-                          <div className="field-list">
-                            {category.fields.map((field) => (
-                              <div key={field.label} className="field-item">
-                                <div>
-                                  <span className="field-label">{field.label}</span>
-                                  <strong className={field.value === "未入力" ? "muted" : ""}>{field.value}</strong>
-                                </div>
-                                <div className="field-meta">
-                                  <span>{formatDate(field.updatedAt)}</span>
-                                  <span>{field.responses}件</span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </article>
-                      );
-                    })}
-                  </div>
-                </section>
-
-                <section className="panel">
-                  <div className="panel-header">
-                    <div>
-                      <p className="section-label">Free Reviews</p>
-                      <h2>自由記述レビュー</h2>
-                    </div>
-                    <span className="pill neutral">{selectedHospital.freeReviews.length} entries</span>
-                  </div>
-                  <div className="review-list">
-                    {selectedHospital.freeReviews.length > 0 ? (
-                      selectedHospital.freeReviews.map((review) => (
-                        <article key={`${review.author}-${review.postedAt}`} className="review-card">
-                          <div className="review-card-header">
-                            <strong>{review.author}</strong>
-                            <span>{formatDate(review.postedAt)}</span>
-                          </div>
-                          <p>{review.body}</p>
-                        </article>
-                      ))
-                    ) : (
-                      <div className="empty-state">
-                        <h3>まだレビューがありません</h3>
-                        <p>初回レビューとインタビュー回答が集まると、この病院の詳細が表示されます。</p>
-                      </div>
-                    )}
-                  </div>
-                </section>
-              </>
-            ) : (
-              <section className="panel detail-hero empty-selection">
-                <p className="section-label">Getting Started</p>
-                <h2>実習先を選択して、詳細を確認しよう</h2>
-                <p className="detail-subtitle">
-                  左の一覧から病院を選ぶと、構造化レビュー、AI要約、自由記述レビューを表示します。
-                </p>
-              </section>
-            )}
-          </div>
-        </section>
+              )}
+            </div>
+          </section>
+        ) : null}
       </main>
+
+      {isMobileLayout && selectedHospital && freshness ? (
+        <div className="modal-scrim detail-modal-scrim" role="presentation">
+          <div
+            className="modal detail-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="detail-modal-title"
+          >
+            <div className="modal-header">
+              <div>
+                <p className="section-label">Hospital Detail</p>
+                <h2 id="detail-modal-title">{selectedHospital.name}</h2>
+              </div>
+              <button className="close-button" onClick={() => setSelectedHospitalId(null)} aria-label="閉じる">
+                ×
+              </button>
+            </div>
+            <div className="content-grid detail-modal-content">{selectedHospitalContent}</div>
+          </div>
+        </div>
+      ) : null}
 
       {showInterviewModal && activeInterview ? (
         <div className="modal-scrim" role="presentation">
