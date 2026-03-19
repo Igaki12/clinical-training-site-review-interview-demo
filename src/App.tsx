@@ -116,6 +116,21 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const shouldLockScroll =
+      showApiKeyModal || showInterviewModal || (isMobileLayout && selectedHospitalId !== null);
+
+    const previousOverflow = document.body.style.overflow;
+
+    if (shouldLockScroll) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMobileLayout, selectedHospitalId, showApiKeyModal, showInterviewModal]);
+
   const selectedHospital = useMemo(
     () => hospitals.find((hospital) => hospital.id === selectedHospitalId) ?? null,
     [selectedHospitalId],
@@ -480,7 +495,7 @@ export default function App() {
               ))}
             </div>
             <div className="modal-footer">
-              <p>回答しないとレビュー閲覧ができない、という想定の導線を demo として表現しています。</p>
+              <p>回答するとレビュー閲覧できます</p>
               <div className="modal-actions">
                 <button className="primary-button" onClick={() => setShowInterviewModal(false)}>
                   回答してレビューを見る
