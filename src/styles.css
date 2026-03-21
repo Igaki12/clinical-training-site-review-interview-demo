@@ -54,6 +54,17 @@ button {
   grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
   gap: 20px;
   margin-bottom: 24px;
+  padding: 22px;
+  border-radius: 34px;
+  background:
+    linear-gradient(135deg, rgba(7, 12, 18, 0.7), rgba(16, 24, 34, 0.5)),
+    linear-gradient(180deg, rgba(6, 10, 16, 0.12), rgba(6, 10, 16, 0.48)),
+    url("../hero-background.jpg");
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(13, 22, 34, 0.18);
+  overflow: hidden;
 }
 
 .hero-copy,
@@ -68,18 +79,12 @@ button {
 }
 
 .hero-copy {
-  position: relative;
-  overflow: hidden;
   padding: 32px;
   border-radius: 28px;
-  background:
-    linear-gradient(135deg, rgba(7, 12, 18, 0.72), rgba(16, 24, 34, 0.54)),
-    linear-gradient(180deg, rgba(6, 10, 16, 0.18), rgba(6, 10, 16, 0.58)),
-    url("../hero-background.jpg");
-  background-size: cover;
-  background-position: center;
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 60px rgba(13, 22, 34, 0.18);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .hero-copy h1 {
@@ -128,12 +133,18 @@ button {
   padding: 22px;
   border-radius: 28px;
   align-content: start;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .hero-stat {
   padding: 16px;
-  background: rgba(235, 242, 247, 0.8);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
 }
 
 .hero-stat-wide {
@@ -149,6 +160,10 @@ button {
   color: #627b8d;
   font-size: 0.88rem;
 }
+
+.hero-stat span {
+  color: rgba(232, 240, 247, 0.78);
+}
 .hospital-area{
   margin-bottom: 4px;
 }
@@ -159,6 +174,10 @@ button {
   display: block;
   margin-top: 8px;
   font-size: 1.8rem;
+}
+
+.hero-stat strong {
+  color: #f8fbff;
 }
 
 .secondary-button,
@@ -195,8 +214,9 @@ button {
 
 .secondary-button {
   grid-column: 1 / -1;
-  background: #f0f4f8;
-  color: #183042;
+  background: rgba(255, 255, 255, 0.14);
+  color: #f5f9ff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ghost-button {
